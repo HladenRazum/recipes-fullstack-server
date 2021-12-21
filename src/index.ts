@@ -7,9 +7,8 @@ import * as cors from "cors";
 dotenv.config();
 
 const PORT = process.env.PORT || 9000;
-const mongoUri = process.env.CONNECTION_URL;
+const CONNECTION_URI = process.env.CONNECTION_URL;
 
-console.log(mongoUri);
 
 const app = express();
 
@@ -20,10 +19,24 @@ app.use(bodyParser.json({
 app.use(cors());
 
 
+mongoose.connect(CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true } as mongoose.ConnectOptions)
+   .then(() => {
+      app.listen(PORT, () => {
+         console.log("Connected to MongoDB database...");
+         console.log(`Server is listening on port: ${PORT}...`);
+      });
+   })
+   .catch((err) => {
+      console.log(err.message);
+   });
+
+
+
+
+
 app.get("/", (req, res) => {
    res.send("home");
 });
 
-app.listen(PORT, () => {
-   console.log(`Server is listening on port: ${PORT}`);
-});
+
+

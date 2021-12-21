@@ -4,6 +4,7 @@ import * as bodyParser from "body-parser";
 import * as mongoose from "mongoose";
 import * as cors from "cors";
 import postRoutes from "../routes/posts";
+import recipesRoutes from "../routes/recipes";
 
 dotenv.config();
 
@@ -15,8 +16,9 @@ const app = express();
 app.use(bodyParser.json({
    limit: "30mb"
 }));
-app.use(cors());
+// app.use(cors());
 app.use("/posts", postRoutes);
+app.use("/recipes", recipesRoutes);
 
 mongoose.connect(CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true } as mongoose.ConnectOptions)
    .then(startServer)

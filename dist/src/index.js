@@ -4,8 +4,8 @@ const express = require("express");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const cors = require("cors");
 const posts_1 = require("../routes/posts");
+const recipes_1 = require("../routes/recipes");
 dotenv.config();
 const PORT = process.env.PORT || 9000;
 const CONNECTION_URI = process.env.CONNECTION_URL;
@@ -14,8 +14,9 @@ const app = express();
 app.use(bodyParser.json({
     limit: "30mb"
 }));
-app.use(cors());
+// app.use(cors());
 app.use("/posts", posts_1.default);
+app.use("/recipes", recipes_1.default);
 mongoose.connect(CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(startServer)
     .catch((err) => {

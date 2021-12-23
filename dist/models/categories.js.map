@@ -1,0 +1,1 @@
+{"version":3,"file":"categories.js","sourceRoot":"","sources":["../../src/models/categories.ts"],"names":[],"mappings":";;;AAAA,qCAAqC;AAIrC,MAAM,cAAc,GAAG,IAAI,QAAQ,CAAC,MAAM,CAAoB;IAC3D,QAAQ,EAAE,MAAM;CAClB,CAAC,CAAC;AAEH,MAAM,QAAQ,GAAG,QAAQ,CAAC,KAAK,CAAC,UAAU,EAAE,cAAc,CAAC,CAAC;AAEnD,4BAAQ"}

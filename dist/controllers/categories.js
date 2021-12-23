@@ -9,13 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createRecipe = exports.getAllRecipes = void 0;
-const recipes_1 = require("../models/recipes");
+exports.createCategory = exports.getAllCategories = void 0;
+const categories_1 = require("../models/categories");
 // Show all recipes
-exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getAllCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const recipes = yield recipes_1.Recipe.find();
-        res.status(200).json(recipes);
+        const category = yield categories_1.Category.find();
+        if (category) {
+            res.status(200).json(category);
+        }
+        else {
+            res.status(200).json([]);
+        }
     }
     catch (error) {
         res.status(404).json({
@@ -24,13 +29,12 @@ exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 // Create a new Recipe
-exports.createRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const recipe = req.body;
-    const newRecipe = new recipes_1.Recipe(recipe);
-    console.log(recipe);
+exports.createCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const category = req.body;
+    const newCategory = new categories_1.Category(category);
     try {
-        yield newRecipe.save();
-        res.status(201).json(newRecipe);
+        yield newCategory.save();
+        res.status(201).json(newCategory);
     }
     catch (error) {
         res.status(409).json({
@@ -38,4 +42,4 @@ exports.createRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
 });
-//# sourceMappingURL=recipes.js.map
+//# sourceMappingURL=categories.js.map

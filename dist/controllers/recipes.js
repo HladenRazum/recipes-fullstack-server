@@ -27,7 +27,6 @@ exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function
 exports.createRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const recipe = req.body;
     const newRecipe = new recipes_1.Recipe(recipe);
-    console.log(recipe);
     try {
         yield newRecipe.save();
         res.status(201).json(newRecipe);

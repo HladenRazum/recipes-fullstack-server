@@ -7,4 +7,5 @@ const router = express.Router();
 exports.categoriesRouter = router;
 router.get("/", categories_1.getAllCategories);
 router.post("/", categories_1.createCategory);
+router.delete("/:categoryId", categories_1.deleteCategory);
 //# sourceMappingURL=categories.js.map

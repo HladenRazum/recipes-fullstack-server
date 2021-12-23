@@ -9,8 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createCategory = exports.getAllCategories = void 0;
+exports.deleteCategory = exports.createCategory = exports.getAllCategories = void 0;
 const categories_1 = require("../models/categories");
+const mongoose = require("mongoose");
 // Show all recipes
 exports.getAllCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -40,6 +41,21 @@ exports.createCategory = (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.status(409).json({
             message: error.message,
         });
+    }
+});
+exports.deleteCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const _id = req.params.categoryId;
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+        return res.status(404).send("No categories with that id");
+    }
+    try {
+        yield categories_1.Category.findByIdAndDelete(_id);
+        return res
+            .status(200)
+            .json({ message: "Category was removed from database" });
+    }
+    catch (error) {
+        console.log(error);
     }
 });
 //# sourceMappingURL=categories.js.map

@@ -1,5 +1,6 @@
 import { Category } from "../models/categories";
 import { Request, Response } from "express";
+import * as mongoose from "mongoose";
 
 // Show all recipes
 export const getAllCategories = async (req: Request, res: Response) => {
@@ -29,5 +30,21 @@ export const createCategory = async (req: Request, res: Response) => {
       res.status(409).json({
          message: error.message,
       });
+   }
+};
+
+export const deleteCategory = async (req: Request, res: Response) => {
+   const _id = req.params.categoryId;
+
+   if (!mongoose.Types.ObjectId.isValid(_id)) {
+      return res.status(404).send("No categories with that id");
+   }
+   try {
+      await Category.findByIdAndDelete(_id);
+      return res
+         .status(200)
+         .json({ message: "Category was removed from database" });
+   } catch (error) {
+      console.log(error);
    }
 };

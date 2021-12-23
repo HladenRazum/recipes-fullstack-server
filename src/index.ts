@@ -13,12 +13,10 @@ const PORT = process.env.PORT || 9000;
 const CONNECTION_URI = process.env.CONNECTION_URL;
 
 const app = express();
-app.use(bodyParser.json({ limit: "30mb", }));
+app.use(bodyParser.json({ limit: "30mb" }));
 
 app.use("/recipes", recipesRouter);
 app.use("/categories", categoriesRouter);
-
-
 
 mongoose
    .connect(CONNECTION_URI, {

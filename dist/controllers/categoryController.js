@@ -9,18 +9,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateRecipe = exports.createRecipe = exports.getAllRecipes = exports.RecipeRepo = void 0;
+exports.deleteCategory = exports.createCategory = exports.getAllCategories = void 0;
+const categoryModel_1 = require("../models/categoryModel");
 const mongoose = require("mongoose");
-const recipes_1 = require("../models/recipes");
-class RecipeRepo {
-    constructor(a, c, b) { }
-}
-exports.RecipeRepo = RecipeRepo;
 // Show all recipes
-exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getAllCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const recipes = yield recipes_1.Recipe.find();
-        res.status(200).json(recipes);
+        const category = yield categoryModel_1.Category.find();
+        if (category) {
+            res.status(200).json(category);
+        }
+        else {
+            res.status(200).json([]);
+        }
     }
     catch (error) {
         res.status(404).json({
@@ -29,12 +30,12 @@ exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 // Create a new Recipe
-exports.createRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const recipe = req.body;
-    const newRecipe = new recipes_1.Recipe(recipe);
+exports.createCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const category = req.body;
+    const newCategory = new categoryModel_1.Category(category);
     try {
-        yield newRecipe.save();
-        res.status(201).json(newRecipe);
+        yield newCategory.save();
+        res.status(201).json(newCategory);
     }
     catch (error) {
         res.status(409).json({
@@ -42,20 +43,19 @@ exports.createRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
 });
-// Update Recipe
-exports.updateRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const _id = req.params.recipeId;
-    // get the new information from req.body
-    const updatedRecipe = new recipes_1.Recipe();
+exports.deleteCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const _id = req.params.categoryId;
     if (!mongoose.Types.ObjectId.isValid(_id)) {
-        return res.status(404).send("No recipe with this ID was found!");
+        return res.status(404).send("No categories with that id");
     }
     try {
-        const recipe = yield recipes_1.Recipe.findByIdAndUpdate(_id, updatedRecipe);
-        return res.status(200).json({ recipe });
+        yield categoryModel_1.Category.findByIdAndDelete(_id);
+        return res
+            .status(200)
+            .json({ message: "Category was removed from database" });
     }
     catch (error) {
-        res.status(404).send(error);
+        console.log(error);
     }
 });
-//# sourceMappingURL=recipes.js.map
+//# sourceMappingURL=categoryController.js.map

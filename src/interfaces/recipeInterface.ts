@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 interface likeCountInterface {
    type: number;
    default: 0;
@@ -13,5 +15,5 @@ export interface RecipeInterface {
    description: string;
    likeCount: likeCountInterface;
    createdAt: createdAtInterface;
-   tags?: string;
+   tags?: string[];
 }

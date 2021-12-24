@@ -16,9 +16,11 @@
     "@types/mongoose": "^5.11.97",
     "body-parser": "^1.19.1",
     "cors": "^2.8.5",
+    "dayjs": "^1.10.7",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "irc": "^0.5.2",
+    "logger": "^0.0.1",
     "mongodb": "^4.2.2",
     "mongoose": "^6.1.2",
     "rxjs": "^6.5.5"

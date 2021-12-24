@@ -22,12 +22,12 @@ mongoose
 })
     .then(() => {
     app.listen(PORT, () => {
-        console.log("Connected to MongoDB database...");
+        // console.log("Connected to MongoDB database...");
         console.log(`Server is listening on port: ${PORT}...`);
     });
 })
     .catch((err) => {
-    console.log(err.message);
+    console.log(err);
 });
 app.get("/", (req, res) => {
     res.send("home");

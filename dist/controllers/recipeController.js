@@ -9,17 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateRecipe = exports.createRecipe = exports.getAllRecipes = exports.RecipeRepo = void 0;
+exports.updateRecipe = exports.createRecipe = exports.getAllRecipes = void 0;
 const mongoose = require("mongoose");
-const recipes_1 = require("../models/recipes");
-class RecipeRepo {
-    constructor(a, c, b) { }
-}
-exports.RecipeRepo = RecipeRepo;
+const recipeModel_1 = require("../models/recipeModel");
 // Show all recipes
 exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const recipes = yield recipes_1.Recipe.find();
+        const recipes = yield recipeModel_1.Recipe.find();
         res.status(200).json(recipes);
     }
     catch (error) {
@@ -31,7 +27,7 @@ exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function
 // Create a new Recipe
 exports.createRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const recipe = req.body;
-    const newRecipe = new recipes_1.Recipe(recipe);
+    const newRecipe = new recipeModel_1.Recipe(recipe);
     try {
         yield newRecipe.save();
         res.status(201).json(newRecipe);
@@ -45,17 +41,19 @@ exports.createRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function*
 // Update Recipe
 exports.updateRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const _id = req.params.recipeId;
-    // get the new information from req.body
-    const updatedRecipe = new recipes_1.Recipe();
+    const recipe = req.body;
     if (!mongoose.Types.ObjectId.isValid(_id)) {
         return res.status(404).send("No recipe with this ID was found!");
     }
     try {
-        const recipe = yield recipes_1.Recipe.findByIdAndUpdate(_id, updatedRecipe);
-        return res.status(200).json({ recipe });
+        const query = yield recipeModel_1.Recipe.find({ _id: _id });
+        const updatedRecipe = yield recipeModel_1.Recipe.findOneAndUpdate(query, recipe, {
+            new: true,
+        });
+        return res.status(200).json({ updatedRecipe });
     }
     catch (error) {
         res.status(404).send(error);
     }
 });
-//# sourceMappingURL=recipes.js.map
+//# sourceMappingURL=recipeController.js.map

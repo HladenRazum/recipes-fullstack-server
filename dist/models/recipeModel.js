@@ -11,4 +11,4 @@ const recipeSchema = new mongoose.Schema({
 });
 const Recipe = mongoose.model("Recipe", recipeSchema);
 exports.Recipe = Recipe;
-//# sourceMappingURL=recipes.js.map
+//# sourceMappingURL=recipeModel.js.map

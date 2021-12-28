@@ -2,10 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.recipesRouter = void 0;
 const express = require("express");
-const recipeController_1 = require("../controllers/recipeController");
+const recipesController_1 = require("../controllers/recipesController");
 const router = express.Router();
 exports.recipesRouter = router;
-router.get("/", recipeController_1.getAllRecipes);
-router.post("/", recipeController_1.createRecipe);
-router.patch("/:recipeId", recipeController_1.updateRecipe);
+router.get("/", recipesController_1.getAllRecipes);
+router.post("/", recipesController_1.createRecipe);
+router.patch("/:recipeId", recipesController_1.updateRecipe);
+router.delete("/:recipeId", recipesController_1.deleteRecipe);
 //# sourceMappingURL=recipes.js.map

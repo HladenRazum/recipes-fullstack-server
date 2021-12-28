@@ -4,12 +4,14 @@ import {
    getAllRecipes,
    createRecipe,
    updateRecipe,
-} from "../controllers/recipeController";
+   deleteRecipe,
+} from "../controllers/recipesController";
 
 const router = express.Router();
 
 router.get("/", getAllRecipes);
 router.post("/", createRecipe);
 router.patch("/:recipeId", updateRecipe);
+router.delete("/:recipeId", deleteRecipe);
 
 export { router as recipesRouter };

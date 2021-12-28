@@ -57,5 +57,20 @@ exports.updateRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 // Delete a recipe
-exports.deleteRecipe = () => __awaiter(void 0, void 0, void 0, function* () { });
-//# sourceMappingURL=recipeController.js.map
+exports.deleteRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const _id = req.params.recipeId;
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+        return res.status(404).send("No recipe with this ID was found!");
+    }
+    try {
+        const query = yield recipeModel_1.Recipe.find({ _id: _id });
+        yield recipeModel_1.Recipe.findOneAndDelete(query);
+        res.status(200).send("Recipe was successfully removed from database.");
+    }
+    catch (error) {
+        res.status(404).send({
+            error: error,
+        });
+    }
+});
+//# sourceMappingURL=recipesController.js.map

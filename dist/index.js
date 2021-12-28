@@ -3,33 +3,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
+const morgan = require("morgan");
+const db_1 = require("./db");
 // import * as cors from "cors";
+dotenv.config();
+db_1.connectDB();
+const PORT = process.env.PORT || 9000;
+const app = express();
+app.use(bodyParser.json({ limit: "30mb" }));
+if (process.env.NODE_ENV === "development") {
+    app.use(morgan("dev"));
+}
 // Routes
 const recipes_1 = require("./routes/recipes");
 const categories_1 = require("./routes/categories");
-dotenv.config();
-const PORT = process.env.PORT || 9000;
-const CONNECTION_URI = process.env.CONNECTION_URL;
-const app = express();
-app.use(bodyParser.json({ limit: "30mb" }));
 app.use("/recipes", recipes_1.recipesRouter);
 app.use("/categories", categories_1.categoriesRouter);
-mongoose
-    .connect(CONNECTION_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-    .then(() => {
-    app.listen(PORT, () => {
-        // console.log("Connected to MongoDB database...");
-        console.log(`Server is listening on port: ${PORT}...`);
-    });
-})
-    .catch((err) => {
-    console.log(err);
-});
-app.get("/", (req, res) => {
-    res.send("home");
+app.listen(PORT, () => {
+    console.log(`Server is running in ${process.env.NODE_ENV} on port ${PORT}`);
 });
 //# sourceMappingURL=index.js.map

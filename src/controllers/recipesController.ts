@@ -1,7 +1,6 @@
 import * as mongoose from "mongoose";
 import { Recipe } from "../models/recipeModel";
 import { Request, Response } from "express";
-import { RecipeInterface } from "../interfaces/recipeInterface";
 
 // Show all recipes
 export const getAllRecipes = async (req, res) => {
@@ -47,5 +46,24 @@ export const updateRecipe = async (req: Request, res: Response) => {
       return res.status(200).json({ updatedRecipe });
    } catch (error) {
       res.status(404).send(error);
+   }
+};
+
+// Delete a recipe
+export const deleteRecipe = async (req: Request, res: Response) => {
+   const _id = req.params.recipeId;
+
+   if (!mongoose.Types.ObjectId.isValid(_id)) {
+      return res.status(404).send("No recipe with this ID was found!");
+   }
+
+   try {
+      const query = await Recipe.find({ _id: _id });
+      await Recipe.findOneAndDelete(query);
+      res.status(200).send("Recipe was successfully removed from database.");
+   } catch (error) {
+      res.status(404).send({
+         error: error,
+      });
    }
 };

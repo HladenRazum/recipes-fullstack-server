@@ -5,10 +5,6 @@ const express = require("express");
 const categoryController_1 = require("../controllers/categoryController");
 const router = express.Router();
 exports.categoriesRouter = router;
-router.use((req, res, next) => {
-    res.json(req);
-    next();
-});
 router.get("/", categoryController_1.getAllCategories);
 router.post("/", categoryController_1.createCategory);
 router.delete("/:categoryId", categoryController_1.deleteCategory);

@@ -9,23 +9,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.connectDB = void 0;
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-dotenv.config();
-const CONNECTION_URI = process.env.CONNECTION_URI;
-const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
+exports.createUser = exports.getAllUsers = void 0;
+const user_model_1 = require("../models/user.model");
+// Show all users
+exports.getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const conn = yield mongoose.connect(CONNECTION_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-        console.log(`MongoDB Connected: ${conn.connection.host}`);
+        const user = yield user_model_1.User.find();
+        res.status(200).json(user);
     }
     catch (error) {
-        console.log(error);
-        process.exit(1);
+        res.status(404).json({
+            message: error.message,
+        });
     }
 });
-exports.connectDB = connectDB;
-//# sourceMappingURL=db.js.map
+// Create a new user
+exports.createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = req.body;
+    const newUser = new user_model_1.User(user);
+    try {
+        yield newUser.save();
+        res.status(201).json(newUser);
+    }
+    catch (error) {
+        res.status(409).json({
+            message: error.message,
+        });
+    }
+});
+//# sourceMappingURL=user.controller.js.map

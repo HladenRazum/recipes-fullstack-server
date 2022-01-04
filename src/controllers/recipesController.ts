@@ -3,7 +3,7 @@ import { Recipe } from "../models/recipeModel";
 import { Request, Response } from "express";
 
 // Show all recipes
-export const getAllRecipes = async (req, res) => {
+export const getAllRecipes = async (req: Request, res: Response) => {
    try {
       const recipes = await Recipe.find();
       res.status(200).json(recipes);

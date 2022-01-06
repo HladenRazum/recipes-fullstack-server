@@ -1,4 +1,4 @@
-import { Category } from "../models/categoryModel";
+import { Category } from "../models/category.model";
 import { Request, Response } from "express";
 import * as mongoose from "mongoose";
 

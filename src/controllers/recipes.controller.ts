@@ -1,5 +1,5 @@
 import * as mongoose from "mongoose";
-import { Recipe } from "../models/recipeModel";
+import { Recipe } from "../models/recipe.model";
 import { Request, Response } from "express";
 
 // Show all recipes

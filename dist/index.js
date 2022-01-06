@@ -20,9 +20,12 @@ if (process.env.NODE_ENV === "development") {
 const recipes_1 = require("./routes/recipes");
 const categories_1 = require("./routes/categories");
 const users_1 = require("./routes/users");
-app.use("/recipes", recipes_1.recipesRouter);
-app.use("/categories", categories_1.categoriesRouter);
-app.use("/users", users_1.usersRouter);
+const auth_1 = require("./routes/auth");
+app.use("/api/recipes", recipes_1.recipesRouter);
+app.use("/api/categories", categories_1.categoriesRouter);
+app.use("/api/users", users_1.usersRouter);
+app.use("/api/", auth_1.authenticationRouter);
+app.use("/api/", auth_1.authenticationRouter);
 app.use(not_found_1.notFound);
 app.listen(PORT, () => {
     console.log(`Server is running in ${process.env.NODE_ENV} on port ${PORT}`);

@@ -22,10 +22,14 @@ if (process.env.NODE_ENV === "development") {
 import { recipesRouter } from "./routes/recipes";
 import { categoriesRouter } from "./routes/categories";
 import { usersRouter } from "./routes/users";
+import { authenticationRouter } from "./routes/auth";
 
-app.use("/recipes", recipesRouter);
-app.use("/categories", categoriesRouter);
-app.use("/users", usersRouter);
+app.use("/api/recipes", recipesRouter);
+app.use("/api/categories", categoriesRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/", authenticationRouter);
+app.use("/api/", authenticationRouter);
+
 app.use(notFound);
 
 app.listen(PORT, () => {

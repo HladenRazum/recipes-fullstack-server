@@ -12,9 +12,11 @@ export interface IUser {
 export class UserClass {
    constructor(
       private username: string,
+      private password: string,
       private firstname: string,
       private lastname: string,
       private email: string,
-      private role: "ANONYMOUS" | "REGISTERED" | "ADMIN"
+      private role: "ANONYMOUS" | "REGISTERED" | "ADMIN",
+      private _id?: string | undefined
    ) {}
 }

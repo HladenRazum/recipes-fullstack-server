@@ -1,5 +1,5 @@
 import * as mongoose from "mongoose";
-import { RecipeInterface } from "../interfaces/recipeInterface";
+import { RecipeInterface } from "../interfaces/recipe.interface";
 
 const recipeSchema = new mongoose.Schema<RecipeInterface>({
    title: { type: String, requred: true },

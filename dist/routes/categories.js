@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.categoriesRouter = void 0;
 const express = require("express");
-const categoryController_1 = require("../controllers/categoryController");
+const category_controller_1 = require("../controllers/category.controller");
 const router = express.Router();
 exports.categoriesRouter = router;
-router.get("/", categoryController_1.getAllCategories);
-router.post("/", categoryController_1.createCategory);
-router.delete("/:categoryId", categoryController_1.deleteCategory);
+router.get("/", category_controller_1.getAllCategories);
+router.post("/", category_controller_1.createCategory);
+router.delete("/:categoryId", category_controller_1.deleteCategory);
 //# sourceMappingURL=categories.js.map

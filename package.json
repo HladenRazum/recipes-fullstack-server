@@ -14,6 +14,7 @@
     "dev": "ts-node-dev --respawn --pretty --transpile-only src/index.ts"
   },
   "dependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/mongoose": "^5.11.97",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.1",
@@ -22,6 +23,7 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "irc": "^0.5.2",
+    "jsonwebtoken": "^8.5.1",
     "logger": "^0.0.1",
     "mongodb": "^4.2.2",
     "mongoose": "^6.1.2",

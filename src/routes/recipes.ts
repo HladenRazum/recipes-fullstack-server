@@ -5,7 +5,7 @@ import {
    createRecipe,
    updateRecipe,
    deleteRecipe,
-} from "../controllers/recipesController";
+} from "../controllers/recipes.controller";
 
 const router = express.Router();
 

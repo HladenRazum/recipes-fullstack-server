@@ -2,17 +2,17 @@ import * as express from "express";
 import * as dotenv from "dotenv";
 import * as bodyParser from "body-parser";
 import * as morgan from "morgan";
-import * as cors from "cors";
 import { connectDB } from "./db";
 import { notFound } from "./middlewares/not-found";
+import { allowCors } from "./middlewares/cross-origin";
 
 dotenv.config();
 connectDB();
 
 const PORT = process.env.PORT || 9000;
 const app = express();
+app.use(allowCors);
 
-app.use(cors());
 app.use(bodyParser.json({ limit: "30mb" }));
 if (process.env.NODE_ENV === "development") {
    app.use(morgan("dev"));

@@ -26,15 +26,18 @@ exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function
 });
 // Create a new Recipe
 exports.createRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const recipe = req.body;
-    const newRecipe = new recipe_model_1.Recipe(recipe);
+    const data = req.body;
+    if (data) {
+        return res.status(200).json(data);
+    }
+    const newRecipe = new recipe_model_1.Recipe(data);
     try {
         yield newRecipe.save();
         res.status(201).json(newRecipe);
     }
     catch (error) {
         res.status(409).json({
-            message: error.message,
+            message: error,
         });
     }
 });

@@ -4,14 +4,14 @@ const express = require("express");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
-const cors = require("cors");
 const db_1 = require("./db");
 const not_found_1 = require("./middlewares/not-found");
+const cross_origin_1 = require("./middlewares/cross-origin");
 dotenv.config();
 db_1.connectDB();
 const PORT = process.env.PORT || 9000;
 const app = express();
-app.use(cors());
+app.use(cross_origin_1.allowCors);
 app.use(bodyParser.json({ limit: "30mb" }));
 if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"));

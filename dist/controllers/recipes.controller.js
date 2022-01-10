@@ -27,15 +27,15 @@ exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function
 // Create a new Recipe
 exports.createRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
-    if (process.env.NODE_ENV === "development") {
-        console.log("NEW POST REQUEST for RECIPE: ", req.body);
-    }
     if (!data) {
         return res.status(400).json({
             message: "Bad request!",
         });
     }
     const newRecipe = new recipe_model_1.Recipe(data);
+    if (process.env.NODE_ENV === "development") {
+        console.log(newRecipe);
+    }
     try {
         yield newRecipe.save();
         return res.status(201).json({
@@ -44,6 +44,7 @@ exports.createRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     catch (error) {
+        console.error(error.message);
         return res.status(409).json({
             message: error,
         });

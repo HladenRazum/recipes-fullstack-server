@@ -17,15 +17,18 @@ export const getAllRecipes = async (req: Request, res: Response) => {
 // Create a new Recipe
 export const createRecipe = async (req: Request, res: Response) => {
    const data = req.body;
-   if (process.env.NODE_ENV === "development") {
-      console.log("NEW POST REQUEST for RECIPE: ", req.body);
-   }
+
    if (!data) {
       return res.status(400).json({
          message: "Bad request!",
       });
    }
    const newRecipe = new Recipe(data);
+
+   if (process.env.NODE_ENV === "development") {
+      console.log(newRecipe);
+   }
+
    try {
       await newRecipe.save();
       return res.status(201).json({
@@ -33,6 +36,7 @@ export const createRecipe = async (req: Request, res: Response) => {
          recipe: data,
       });
    } catch (error) {
+      console.error(error.message);
       return res.status(409).json({
          message: error,
       });

@@ -33,14 +33,18 @@ exports.createRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     const newRecipe = new recipe_model_1.Recipe(data);
-    if (process.env.NODE_ENV === "development") {
-        console.log(newRecipe);
+    const errors = newRecipe.validateSync();
+    // if (process.env.NODE_ENV === "development") {
+    //    console.log(newRecipe);
+    // }
+    if (errors) {
+        return res.status(400).json(errors.message);
     }
     try {
         yield newRecipe.save();
         return res.status(201).json({
             message: "Recipe added successfully to database...",
-            recipe: data,
+            recipe: newRecipe,
         });
     }
     catch (error) {

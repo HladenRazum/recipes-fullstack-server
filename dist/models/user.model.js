@@ -7,16 +7,21 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        min: 3,
-        max: 20,
+        minlength: 3,
+        maxlength: 20,
+        trim: true,
     },
     password: {
         type: String,
         required: true,
-        min: 3,
-        max: 10,
+        minlength: 3,
+        maxlength: 15,
+        trim: true,
+        lowercase: true,
     },
-});
+}
+// { timestamps: true }
+);
 const User = mongoose.model("User", userSchema);
 exports.User = User;
 //# sourceMappingURL=user.model.js.map

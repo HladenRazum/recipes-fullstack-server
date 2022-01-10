@@ -24,16 +24,21 @@ export const createRecipe = async (req: Request, res: Response) => {
       });
    }
    const newRecipe = new Recipe(data);
+   const errors = newRecipe.validateSync();
 
-   if (process.env.NODE_ENV === "development") {
-      console.log(newRecipe);
+   // if (process.env.NODE_ENV === "development") {
+   //    console.log(newRecipe);
+   // }
+
+   if (errors) {
+      return res.status(400).json(errors.message);
    }
 
    try {
       await newRecipe.save();
       return res.status(201).json({
          message: "Recipe added successfully to database...",
-         recipe: data,
+         recipe: newRecipe,
       });
    } catch (error) {
       console.error(error.message);

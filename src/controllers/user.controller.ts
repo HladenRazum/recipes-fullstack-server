@@ -23,43 +23,45 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 // Register a new user
 export const createUser = async (req: Request, res: Response) => {
-   const { username, password } = req.body;
-   if (!username || typeof username !== "string") {
-      return res.status(409).json({
-         status: "error",
-         error: "Invalid username",
-      });
-   }
+   // const { username, password } = req.body;
 
-   if (!password || typeof password !== "string") {
-      return res.status(409).json({
-         status: "error",
-         error: "Invalid password",
-      });
-   }
+   return res.send(req.body);
+   // if (!username || typeof username !== "string") {
+   //    return res.status(409).json({
+   //       status: "error",
+   //       error: "Invalid username",
+   //    });
+   // }
 
-   const hashedPassword = await bcrypt.hash(password, 10);
+   // if (!password || typeof password !== "string") {
+   //    return res.status(409).json({
+   //       status: "error",
+   //       error: "Invalid password",
+   //    });
+   // }
 
-   const updatedUser = { ...req.body, password: hashedPassword };
+   // const hashedPassword = await bcrypt.hash(password, 10);
 
-   const newUser = new User(updatedUser);
+   // const updatedUser = { ...req.body, password: hashedPassword };
 
-   try {
-      await newUser.save();
-      res.status(201).json({
-         message: "User created sucessfully",
-         data: "token",
-      });
-   } catch (error) {
-      // if (error.code === 11000) {
-      //    return res.status(409).json({
-      //       message: "Email or username is already in use",
-      //    });
-      // }
-      res.status(409).json({
-         message: error,
-      });
-   }
+   // const newUser = new User(updatedUser);
+
+   // try {
+   //    await newUser.save();
+   //    res.status(201).json({
+   //       message: "User created sucessfully",
+   //       data: "token",
+   //    });
+   // } catch (error) {
+   //    // if (error.code === 11000) {
+   //    //    return res.status(409).json({
+   //    //       message: "Email or username is already in use",
+   //    //    });
+   //    // }
+   //    res.status(409).json({
+   //       message: error,
+   //    });
+   // }
 };
 
 // Login an existing user

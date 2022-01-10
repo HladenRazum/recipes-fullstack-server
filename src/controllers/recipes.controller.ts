@@ -1,7 +1,6 @@
 import * as mongoose from "mongoose";
 import { Recipe } from "../models/recipe.model";
 import { Request, Response } from "express";
-import { iRecipe } from "../interfaces/recipe.interface";
 
 // Show all recipes
 export const getAllRecipes = async (req: Request, res: Response) => {
@@ -18,14 +17,21 @@ export const getAllRecipes = async (req: Request, res: Response) => {
 // Create a new Recipe
 export const createRecipe = async (req: Request, res: Response) => {
    const data = req.body;
-   console.log(req.body);
-   if (data) {
-      return res.status(200).json(data);
+   if (process.env.NODE_ENV === "development") {
+      console.log("NEW POST REQUEST for RECIPE: ", req.body);
+   }
+   if (!data) {
+      return res.status(400).json({
+         message: "Bad request!",
+      });
    }
    const newRecipe = new Recipe(data);
    try {
       await newRecipe.save();
-      return res.status(201).json(newRecipe);
+      return res.status(201).json({
+         message: "Recipe added successfully to database...",
+         recipe: data,
+      });
    } catch (error) {
       return res.status(409).json({
          message: error,

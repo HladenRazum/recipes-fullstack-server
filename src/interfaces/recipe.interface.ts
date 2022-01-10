@@ -1,8 +1,8 @@
-export interface iRecipe {
+export interface IRecipe {
    name: string;
    category: string;
    instructions: string;
-   // image: string;
+   image: string;
    // ingredient1: string;
    // ingredient2: string;
    // ingredient3: string;

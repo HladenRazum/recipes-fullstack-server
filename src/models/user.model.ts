@@ -1,7 +1,7 @@
 import * as mongoose from "mongoose";
-import { UserClass } from "../interfaces/user.interface";
+import { IUser } from "../interfaces/user.interface";
 
-const userSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema<IUser>(
    {
       username: {
          type: String,
@@ -10,19 +10,20 @@ const userSchema = new mongoose.Schema(
          min: 3,
          max: 20,
       },
-      email: {
-         type: String,
-         required: true,
-         unique: true,
-      },
+
       password: {
          type: String,
          required: true,
          min: 3,
          max: 10,
       },
+      // email: {
+      //    type: String,
+      //    required: true,
+      //    unique: true,
+      // },
    },
-   { timestamps: true }
+   // { timestamps: true }
 );
 
 const User = mongoose.model("User", userSchema);

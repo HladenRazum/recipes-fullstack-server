@@ -13,9 +13,9 @@ const JWT_SECRET = process.env.JWT_SECRET;
 export const getAllUsers = async (req: Request, res: Response) => {
    try {
       const user = await User.find();
-      res.status(200).json(user);
+      return res.status(200).json(user);
    } catch (error) {
-      res.status(404).json({
+      return res.status(404).json({
          message: error.message,
       });
    }

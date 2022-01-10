@@ -20,10 +20,10 @@ const JWT_SECRET = process.env.JWT_SECRET;
 exports.getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield user_model_1.User.find();
-        res.status(200).json(user);
+        return res.status(200).json(user);
     }
     catch (error) {
-        res.status(404).json({
+        return res.status(404).json({
             message: error.message,
         });
     }

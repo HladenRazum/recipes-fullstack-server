@@ -18,15 +18,16 @@ export const getAllRecipes = async (req: Request, res: Response) => {
 // Create a new Recipe
 export const createRecipe = async (req: Request, res: Response) => {
    const data = req.body;
+   console.log(req.body);
    if (data) {
       return res.status(200).json(data);
    }
    const newRecipe = new Recipe(data);
    try {
       await newRecipe.save();
-      res.status(201).json(newRecipe);
+      return res.status(201).json(newRecipe);
    } catch (error) {
-      res.status(409).json({
+      return res.status(409).json({
          message: error,
       });
    }

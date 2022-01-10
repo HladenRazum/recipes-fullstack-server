@@ -1,8 +1,8 @@
 import * as mongoose from "mongoose";
-import { CategoryInterface } from "../interfaces/category.interface";
+import { iCategory } from "../interfaces/category.interface";
 
-const categorySchema = new mongoose.Schema<CategoryInterface>({
-   category: String,
+const categorySchema = new mongoose.Schema<iCategory>({
+   category: { type: String, required: true }
 });
 
 const Category = mongoose.model("Category", categorySchema);

@@ -1,16 +1,15 @@
 export interface iRecipe {
    name: string;
    category: string;
-   image: string;
-
    instructions: string;
-   ingredient1: string;
-   ingredient2: string;
-   ingredient3: string;
+   // image: string;
+   // ingredient1: string;
+   // ingredient2: string;
+   // ingredient3: string;
 
-   ingredientMeasure1: string;
-   ingredientMeasure2: string;
-   ingredientMeasure3: string;
+   // ingredientMeasure1: string;
+   // ingredientMeasure2: string;
+   // ingredientMeasure3: string;
 
    // ingredient4?: string;
    // ingredient5?: string;
@@ -27,6 +26,6 @@ export interface iRecipe {
    // ingredientMeasure8?: string;
    // ingredientMeasure9?: string;
    // ingredientMeasure10?: string;
-   createdAt: Date;
-   id?: string | undefined;
+   // createdAt: Date;
+   // id?: string | undefined;
 }

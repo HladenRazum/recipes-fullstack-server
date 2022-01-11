@@ -1,8 +1,13 @@
 import * as mongoose from "mongoose";
 
+interface Ingredient {
+   name: string;
+   count: string;
+}
+
 const ingredient = new mongoose.Schema({
    name: { type: String, required: true, minLength: 2 },
-   count: { type: String, required: true, minLength: 2 },
+   count: { type: String, required: true, minLength: 1 },
 });
 
 // const recipeImage = new mongoose.Schema({
@@ -27,12 +32,8 @@ const Recipe = mongoose.model("Recipe", recipeSchema);
 
 export { Recipe };
 
-function checkMinimumCount(ingredients) {
+function checkMinimumCount(ingredients: Ingredient[]) {
    if (ingredients.length < 3) return false;
-   // else if{
-   //    (ingredients.map((ingredient, index) => {
-   //       ingredient
-   //    }))
    else {
       return true;
    }

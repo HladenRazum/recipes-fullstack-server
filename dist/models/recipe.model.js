@@ -4,7 +4,7 @@ exports.Recipe = void 0;
 const mongoose = require("mongoose");
 const ingredient = new mongoose.Schema({
     name: { type: String, required: true, minLength: 2 },
-    count: { type: String, required: true, minLength: 2 },
+    count: { type: String, required: true, minLength: 1 },
 });
 // const recipeImage = new mongoose.Schema({
 //    url: String,
@@ -26,10 +26,6 @@ exports.Recipe = Recipe;
 function checkMinimumCount(ingredients) {
     if (ingredients.length < 3)
         return false;
-    // else if{
-    //    (ingredients.map((ingredient, index) => {
-    //       ingredient
-    //    }))
     else {
         return true;
     }

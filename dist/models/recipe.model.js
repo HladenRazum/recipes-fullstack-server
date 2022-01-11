@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Recipe = void 0;
 const mongoose = require("mongoose");
 const ingredient = new mongoose.Schema({
-    name: { type: String, required: true, minLength: 2 },
-    count: { type: String, required: true, minLength: 1 },
+    ingredientName: { type: String, required: true, minLength: 2 },
+    ingredientPortion: { type: String, required: true, minLength: 1 },
 });
 // const recipeImage = new mongoose.Schema({
 //    url: String,
@@ -19,7 +19,7 @@ const recipeSchema = new mongoose.Schema({
         required: true,
         validate: [checkMinimumCount, "Ingredients must be at least 3"],
     },
-    image: { type: String, required: true },
+    imageURL: { type: String, required: true },
 });
 const Recipe = mongoose.model("Recipe", recipeSchema);
 exports.Recipe = Recipe;

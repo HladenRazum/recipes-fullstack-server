@@ -1,13 +1,13 @@
 import * as mongoose from "mongoose";
 
 interface Ingredient {
-   name: string;
-   count: string;
+   ingredientName: string;
+   ingredientPortion: string;
 }
 
-const ingredient = new mongoose.Schema({
-   name: { type: String, required: true, minLength: 2 },
-   count: { type: String, required: true, minLength: 1 },
+const ingredient = new mongoose.Schema<Ingredient>({
+   ingredientName: { type: String, required: true, minLength: 2 },
+   ingredientPortion: { type: String, required: true, minLength: 1 },
 });
 
 // const recipeImage = new mongoose.Schema({
@@ -24,7 +24,7 @@ const recipeSchema = new mongoose.Schema({
       required: true,
       validate: [checkMinimumCount, "Ingredients must be at least 3"],
    },
-   image: { type: String, required: true },
+   imageURL: { type: String, required: true },
    // category: mongoose.SchemaTypes.ObjectId,
 });
 

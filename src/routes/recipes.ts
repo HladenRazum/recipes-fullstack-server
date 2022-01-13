@@ -1,4 +1,7 @@
 import * as express from "express";
+import * as multer from "multer";
+
+const upload = multer({ dest: "uploads/" });
 
 import {
    getAllRecipes,
@@ -10,7 +13,7 @@ import {
 const router = express.Router();
 
 router.get("/", getAllRecipes);
-router.post("/", createRecipe);
+router.post("/", upload.single("recipe_img"), createRecipe);
 router.patch("/:recipeId", updateRecipe);
 router.delete("/:recipeId", deleteRecipe);
 

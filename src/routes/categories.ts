@@ -3,7 +3,7 @@ import {
    createCategory,
    getAllCategories,
    deleteCategory,
-} from "../controllers/category.controller";
+} from "../controllers/categories.controller";
 
 const router = express.Router();
 

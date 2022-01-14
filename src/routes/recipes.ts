@@ -12,7 +12,7 @@ import {
 
 const router = express.Router();
 
-router.get("/", getAllRecipes);
+router.get("/", upload.single("recipe_img"), getAllRecipes);
 router.post("/", upload.single("recipe_img"), createRecipe);
 router.patch("/:recipeId", updateRecipe);
 router.delete("/:recipeId", deleteRecipe);

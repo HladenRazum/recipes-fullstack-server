@@ -24,15 +24,10 @@ exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
 });
+// Get a recipe by ID
 // Create a new Recipe
 exports.createRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let data = req.body;
-    // console.log(data);
-    // if (data === undefined) {
-    //    return res.status(400).json({
-    //       message: "Bad request!",
-    //    });
-    // }
     data = Object.assign(Object.assign({}, data), { recipe_img: req.file, ingredients: JSON.parse(data.ingredients) });
     const newRecipe = new recipe_model_1.Recipe(data);
     const errors = newRecipe.validateSync();

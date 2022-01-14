@@ -14,19 +14,16 @@ export const getAllRecipes = async (req: Request, res: Response) => {
    }
 };
 
+// Get a recipe by ID
+
 // Create a new Recipe
 export const createRecipe = async (req: Request, res: Response) => {
-
    let data = req.body;
-
-   // console.log(data);
-   // if (data === undefined) {
-   //    return res.status(400).json({
-   //       message: "Bad request!",
-   //    });
-   // }
-   data = { ...data, recipe_img: req.file, ingredients: JSON.parse(data.ingredients) };
-
+   data = {
+      ...data,
+      recipe_img: req.file,
+      ingredients: JSON.parse(data.ingredients),
+   };
 
    const newRecipe = new Recipe(data);
    const errors = newRecipe.validateSync();

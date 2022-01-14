@@ -37,7 +37,6 @@ export const createRecipe = async (req: Request, res: Response) => {
       ingredients: JSON.parse(data.ingredients),
    };
 
-
    const newRecipe = new Recipe(data);
    const errors = newRecipe.validateSync();
 

@@ -16,6 +16,7 @@ export const getAllRecipes = async (req: Request, res: Response) => {
                   instructions: doc.instructions,
                   ingredients: doc.ingredients,
                   url: "http://localhost:9000/" + doc.recipe_img,
+                  featured: doc.featured
                };
             });
 
@@ -46,7 +47,6 @@ export const getRecipeById = async (req: Request, res: Response) => {
 // Create a new Recipe
 export const createRecipe = async (req: Request, res: Response) => {
    let data = req.body;
-   console.log(req.file);
    data = {
       ...data,
       recipe_img: req.file.path,

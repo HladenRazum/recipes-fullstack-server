@@ -26,6 +26,7 @@ exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function
                     instructions: doc.instructions,
                     ingredients: doc.ingredients,
                     url: "http://localhost:9000/" + doc.recipe_img,
+                    featured: doc.featured
                 };
             });
             return response;
@@ -54,7 +55,6 @@ exports.getRecipeById = (req, res) => __awaiter(void 0, void 0, void 0, function
 // Create a new Recipe
 exports.createRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let data = req.body;
-    console.log(req.file);
     data = Object.assign(Object.assign({}, data), { recipe_img: req.file.path, ingredients: JSON.parse(data.ingredients) });
     const newRecipe = new recipe_model_1.Recipe(data);
     const errors = newRecipe.validateSync();

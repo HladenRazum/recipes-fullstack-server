@@ -20,7 +20,7 @@ app.use(
 
 app.use(bodyParser.json({ limit: "30mb" }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(("/uploads"), express.static("uploads"));
+app.use("/uploads", express.static("uploads"));
 if (process.env.NODE_ENV === "development") {
    app.use(morgan("dev"));
 }
@@ -34,9 +34,7 @@ import { authenticationRouter } from "./routes/auth";
 app.use("/api/recipes", recipesRouter);
 app.use("/api/categories", categoriesRouter);
 app.use("/api/users", usersRouter);
-app.use("/api/", authenticationRouter);
-app.use("/api/", authenticationRouter);
-
+app.use("/api", authenticationRouter);
 app.use(notFound);
 
 app.listen(PORT, () => {

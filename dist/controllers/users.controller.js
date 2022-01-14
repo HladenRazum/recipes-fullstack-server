@@ -9,10 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resetPassword = exports.login = exports.createUser = exports.getAllUsers = void 0;
+exports.createUser = exports.getAllUsers = void 0;
 const user_model_1 = require("../models/user.model");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -58,36 +57,5 @@ exports.createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             message: error,
         });
     }
-});
-// Login an existing user
-exports.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, password } = req.body;
-    try {
-        const user = yield user_model_1.User.findOne({ username }).lean();
-        if (!user) {
-            return res.status(404).json({ error: "Invalid username/password" });
-        }
-        if (JWT_SECRET.length === 0) {
-            throw new Error("Something went wrong during authentication");
-        }
-        if (yield bcrypt.compare(password, user.password)) {
-            const token = jwt.sign({
-                id: user._id,
-                username: user.username,
-            }, JWT_SECRET);
-            return res.status(200).json({ token });
-        }
-    }
-    catch (error) {
-        res.status(404).json({
-            error: error.message,
-        });
-    }
-});
-// Reset password
-exports.resetPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // Extract JasonWebToken
-    const { token } = req.body;
-    const user = jwt.verify(token, JWT_SECRET);
 });
 //# sourceMappingURL=users.controller.js.map

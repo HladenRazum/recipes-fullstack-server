@@ -7,8 +7,7 @@ function fileFilter(req, file, cb) {
    } else {
       cb(null, false);
    }
-};
-
+}
 
 const storage = multer.diskStorage({
    destination: function (req, file, cb) {
@@ -20,12 +19,11 @@ const storage = multer.diskStorage({
    // fileFilter: fileFilter
 });
 
-
-
 const upload = multer({
-   storage: storage, limits: {
-      fileSize: 1024 * 1024 * 5
-   }
+   storage: storage,
+   limits: {
+      fileSize: 1024 * 1024 * 5,
+   },
 });
 
 import {
@@ -33,7 +31,7 @@ import {
    createRecipe,
    updateRecipe,
    deleteRecipe,
-   getRecipeById
+   getRecipeById,
 } from "../controllers/recipes.controller";
 
 const router = express.Router();

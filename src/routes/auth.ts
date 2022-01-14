@@ -1,9 +1,9 @@
 import * as express from "express";
-import { login, resetPassword } from "../controllers/users.controller";
+import { login } from "../controllers/auth.controller";
 
 const router = express.Router();
 
 router.post("/login", login);
-router.post("/reset-password", resetPassword);
+// router.post("/reset-password", resetPassword);
 
 export { router as authenticationRouter };

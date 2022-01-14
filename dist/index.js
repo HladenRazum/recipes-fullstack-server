@@ -17,7 +17,7 @@ app.use(cors({
 }));
 app.use(bodyParser.json({ limit: "30mb" }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(("/uploads"), express.static("uploads"));
+app.use("/uploads", express.static("uploads"));
 if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"));
 }
@@ -29,8 +29,7 @@ const auth_1 = require("./routes/auth");
 app.use("/api/recipes", recipes_1.recipesRouter);
 app.use("/api/categories", categories_1.categoriesRouter);
 app.use("/api/users", users_1.usersRouter);
-app.use("/api/", auth_1.authenticationRouter);
-app.use("/api/", auth_1.authenticationRouter);
+app.use("/api", auth_1.authenticationRouter);
 app.use(not_found_1.notFound);
 app.listen(PORT, () => {
     console.log(`Server is running in ${process.env.NODE_ENV} on port ${PORT}`);

@@ -50,48 +50,8 @@ export const createUser = async (req: Request, res: Response) => {
          data: "token",
       });
    } catch (error) {
-
       res.status(409).json({
          message: error,
       });
    }
-};
-
-// Login an existing user
-export const login = async (req: Request, res: Response) => {
-   const { username, password } = req.body;
-
-   try {
-      const user = await User.findOne({ username }).lean();
-
-      if (!user) {
-         return res.status(404).json({ error: "Invalid username/password" });
-      }
-
-      if (JWT_SECRET.length === 0) {
-         throw new Error("Something went wrong during authentication");
-      }
-
-      if (await bcrypt.compare(password, user.password)) {
-         const token = jwt.sign(
-            {
-               id: user._id,
-               username: user.username,
-            },
-            JWT_SECRET
-         );
-         return res.status(200).json({ token });
-      }
-   } catch (error) {
-      res.status(404).json({
-         error: error.message,
-      });
-   }
-};
-
-// Reset password
-export const resetPassword = async (req: Request, res: Response) => {
-   // Extract JasonWebToken
-   const { token } = req.body;
-   const user = jwt.verify(token, JWT_SECRET);
 };

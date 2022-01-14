@@ -23,7 +23,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 // Register a new user
 export const createUser = async (req: Request, res: Response) => {
-   const { username, password } = req.body;
+   const { username, password, email } = req.body;
 
    if (!username || typeof username !== "string") {
       res.status(409).json({

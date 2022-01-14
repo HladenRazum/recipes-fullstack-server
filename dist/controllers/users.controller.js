@@ -30,7 +30,7 @@ exports.getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 // Register a new user
 exports.createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, password } = req.body;
+    const { username, password, email } = req.body;
     if (!username || typeof username !== "string") {
         res.status(409).json({
             status: "error",

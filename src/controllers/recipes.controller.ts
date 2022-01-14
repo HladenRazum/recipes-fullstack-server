@@ -16,37 +16,41 @@ export const getAllRecipes = async (req: Request, res: Response) => {
 
 // Create a new Recipe
 export const createRecipe = async (req: Request, res: Response) => {
-   console.log(req.file);
-   res.json(req.body);
 
-   // if (!data) {
+   let data = req.body;
+
+   // console.log(data);
+   // if (data === undefined) {
    //    return res.status(400).json({
    //       message: "Bad request!",
    //    });
    // }
-   // const newRecipe = new Recipe(data);
-   // const errors = newRecipe.validateSync();
+   data = { ...data, recipe_img: req.file, ingredients: JSON.parse(data.ingredients) };
 
-   // if (process.env.NODE_ENV === "development") {
-   //    console.log(newRecipe);
-   // }
 
-   // if (errors) {
-   //    return res.status(400).json(errors.message);
-   // }
+   const newRecipe = new Recipe(data);
+   const errors = newRecipe.validateSync();
 
-   // try {
-   //    await newRecipe.save();
-   //    return res.status(201).json({
-   //       message: "Recipe added successfully to database...",
-   //       recipe: newRecipe,
-   //    });
-   // } catch (error) {
-   //    console.error(error.message);
-   //    return res.status(409).json({
-   //       message: error,
-   //    });
-   // }
+   if (process.env.NODE_ENV === "development") {
+      console.log(newRecipe);
+   }
+
+   if (errors) {
+      return res.status(400).json(errors.message);
+   }
+
+   try {
+      await newRecipe.save();
+      return res.status(201).json({
+         message: "Recipe added successfully to database...",
+         recipe: newRecipe,
+      });
+   } catch (error) {
+      console.error(error.message);
+      return res.status(409).json({
+         message: error,
+      });
+   }
 };
 
 // Update Recipe

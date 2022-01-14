@@ -26,33 +26,35 @@ exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function
 });
 // Create a new Recipe
 exports.createRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.file);
-    res.json(req.body);
-    // if (!data) {
+    let data = req.body;
+    // console.log(data);
+    // if (data === undefined) {
     //    return res.status(400).json({
     //       message: "Bad request!",
     //    });
     // }
-    // const newRecipe = new Recipe(data);
-    // const errors = newRecipe.validateSync();
-    // if (process.env.NODE_ENV === "development") {
-    //    console.log(newRecipe);
-    // }
-    // if (errors) {
-    //    return res.status(400).json(errors.message);
-    // }
-    // try {
-    //    await newRecipe.save();
-    //    return res.status(201).json({
-    //       message: "Recipe added successfully to database...",
-    //       recipe: newRecipe,
-    //    });
-    // } catch (error) {
-    //    console.error(error.message);
-    //    return res.status(409).json({
-    //       message: error,
-    //    });
-    // }
+    data = Object.assign(Object.assign({}, data), { recipe_img: req.file, ingredients: JSON.parse(data.ingredients) });
+    const newRecipe = new recipe_model_1.Recipe(data);
+    const errors = newRecipe.validateSync();
+    if (process.env.NODE_ENV === "development") {
+        console.log(newRecipe);
+    }
+    if (errors) {
+        return res.status(400).json(errors.message);
+    }
+    try {
+        yield newRecipe.save();
+        return res.status(201).json({
+            message: "Recipe added successfully to database...",
+            recipe: newRecipe,
+        });
+    }
+    catch (error) {
+        console.error(error.message);
+        return res.status(409).json({
+            message: error,
+        });
+    }
 });
 // Update Recipe
 exports.updateRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

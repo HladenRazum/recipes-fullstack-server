@@ -5,25 +5,16 @@ interface Ingredient {
    ingredientPortion: string;
 }
 
-interface ImageModel {
-   data: Buffer,
-   contentType: String;
-}
 
-const imageSchema = new mongoose.Schema<ImageModel>({
-   data: { type: Buffer, required: true },
-   contentType: { type: String, required: true }
-});
 
 const ingredient = new mongoose.Schema<Ingredient>({
    ingredientName: { type: String, required: true, minLength: 2 },
    ingredientPortion: { type: String, required: true, minLength: 1 },
 });
 
-// const recipeImage = new mongoose.Schema({
-//    url: String,
-//    required: true,
-// });
+const recipeImage = new mongoose.Schema({
+   url: String,
+});
 
 const recipeSchema = new mongoose.Schema({
    name: { type: String, trim: true, requred: true },
@@ -34,8 +25,7 @@ const recipeSchema = new mongoose.Schema({
       required: true,
       validate: [checkMinimumCount, "Ingredients must be at least 3"],
    },
-   recipe_img: { type: imageSchema, required: true }
-   // category: mongoose.SchemaTypes.ObjectId,
+   recipe_img: { type: recipeImage, required: true }
 });
 
 const Recipe = mongoose.model("Recipe", recipeSchema);
@@ -43,7 +33,7 @@ const Recipe = mongoose.model("Recipe", recipeSchema);
 export { Recipe };
 
 function checkMinimumCount(ingredients: Ingredient[]) {
-   if (ingredients.length < 3) return false;
+   if (ingredients.length < 1) return false;
    else {
       return true;
    }

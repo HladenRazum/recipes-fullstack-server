@@ -5,28 +5,24 @@ import { Request, Response } from "express";
 // Show all recipes
 export const getAllRecipes = async (req: Request, res: Response) => {
    try {
-      const recipes = await Recipe.find().exec().then((docs) => {
-         const response =
-            docs.map((doc: IRecipe) => {
+      const recipes = await Recipe.find()
+         .exec()
+         .then((docs) => {
+            const response = docs.map((doc: IRecipe) => {
                return {
                   _id: doc._id,
                   name: doc.name,
                   category: doc.category,
                   instructions: doc.instructions,
                   ingredients: doc.ingredients,
-                  recipe_img: doc.recipe_img,
-                  request: {
-                     type: "GET",
-                     url: "http://localhost:9000/" + doc.recipe_img
-                  }
+                  url: "http://localhost:9000/" + doc.recipe_img,
                };
             });
 
-         return response;
-      });
+            return response;
+         });
 
       res.status(200).json(recipes);
-
    } catch (error) {
       res.status(404).json({
          message: error.message,

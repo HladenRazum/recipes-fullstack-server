@@ -15,7 +15,9 @@ const recipe_model_1 = require("../models/recipe.model");
 // Show all recipes
 exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const recipes = yield recipe_model_1.Recipe.find().exec().then((docs) => {
+        const recipes = yield recipe_model_1.Recipe.find()
+            .exec()
+            .then((docs) => {
             const response = docs.map((doc) => {
                 return {
                     _id: doc._id,
@@ -23,11 +25,7 @@ exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function
                     category: doc.category,
                     instructions: doc.instructions,
                     ingredients: doc.ingredients,
-                    recipe_img: doc.recipe_img,
-                    request: {
-                        type: "GET",
-                        url: "http://localhost:9000/" + doc.recipe_img
-                    }
+                    url: "http://localhost:9000/" + doc.recipe_img,
                 };
             });
             return response;

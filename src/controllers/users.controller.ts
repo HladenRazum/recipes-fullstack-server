@@ -50,11 +50,7 @@ export const createUser = async (req: Request, res: Response) => {
          data: "token",
       });
    } catch (error) {
-      // if (error.code === 11000) {
-      //    return res.status(409).json({
-      //       message: "Email or username is already in use",
-      //    });
-      // }
+
       res.status(409).json({
          message: error,
       });

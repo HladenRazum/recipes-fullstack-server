@@ -54,11 +54,6 @@ exports.createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
     }
     catch (error) {
-        // if (error.code === 11000) {
-        //    return res.status(409).json({
-        //       message: "Email or username is already in use",
-        //    });
-        // }
         res.status(409).json({
             message: error,
         });

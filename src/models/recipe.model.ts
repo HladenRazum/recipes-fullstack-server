@@ -11,6 +11,15 @@ const ingredient = new mongoose.Schema<Ingredient>({
 });
 
 
+export interface IRecipe {
+   name: string;
+   category: string;
+   instructions: string;
+   ingredients: Ingredient[],
+   recipe_img: string;
+   _id: mongoose.Types.ObjectId;
+}
+
 const recipeSchema = new mongoose.Schema({
    name: { type: String, trim: true, requred: true },
    category: { type: String, trim: true, required: true },
@@ -20,7 +29,8 @@ const recipeSchema = new mongoose.Schema({
       required: true,
       validate: [checkMinimumCount, "Ingredients must be at least 3"],
    },
-   recipe_img: { type: String, required: true }
+   recipe_img: { type: String, required: true },
+   _id: mongoose.Types.ObjectId
 });
 
 const Recipe = mongoose.model("Recipe", recipeSchema);

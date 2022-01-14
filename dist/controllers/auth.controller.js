@@ -19,7 +19,8 @@ const JWT_SECRET = process.env.JWT_SECRET;
 exports.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
     try {
-        const user = yield user_model_1.User.findOne({ username }).lean();
+        const user = yield user_model_1.User.findOne({ username });
+        console.log(user);
         if (!user) {
             res.status(404).json({
                 error: "User with these credentials doesn't exist.",
@@ -28,14 +29,14 @@ exports.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (JWT_SECRET.length === 0) {
             throw new Error("Something went wrong during authentication");
         }
-        yield bcrypt.compare(password, user.password).then((match) => {
-            if (!match) {
-                res.status(401).json({ error: "Wrong credentials" });
-            }
-            else {
-                res.status(200).json("Logged In");
-            }
-        });
+        //
+        const isMatch = yield bcrypt.compare(password, user.password);
+        if (isMatch) {
+            res.status(200).json("Logged In");
+        }
+        else {
+            res.status(401).json("Wrong credentials");
+        }
     }
     catch (error) {
         res.status(404).json({

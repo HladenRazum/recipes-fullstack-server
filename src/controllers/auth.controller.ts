@@ -1,8 +1,8 @@
 import * as mongoose from "mongoose";
 import { User } from "../models/user.model";
 import { Request, Response } from "express";
-import * as bcrypt from "bcryptjs";
 import * as jwt from "jsonwebtoken";
+import * as bcrypt from "bcryptjs";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -14,7 +14,8 @@ export const login = async (req: Request, res: Response) => {
    const { username, password } = req.body;
 
    try {
-      const user = await User.findOne({ username }).lean();
+      const user = await User.findOne({ username });
+      console.log(user);
 
       if (!user) {
          res.status(404).json({
@@ -25,13 +26,15 @@ export const login = async (req: Request, res: Response) => {
       if (JWT_SECRET.length === 0) {
          throw new Error("Something went wrong during authentication");
       }
-      await bcrypt.compare(password, user.password).then((match) => {
-         if (!match) {
-            res.status(401).json({ error: "Wrong credentials" });
-         } else {
-            res.status(200).json("Logged In");
-         }
-      });
+
+      //
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      if (isMatch) {
+         res.status(200).json("Logged In");
+      } else {
+         res.status(401).json("Wrong credentials");
+      }
    } catch (error) {
       res.status(404).json({
          error: error.message,

@@ -5,16 +5,11 @@ interface Ingredient {
    ingredientPortion: string;
 }
 
-
-
 const ingredient = new mongoose.Schema<Ingredient>({
    ingredientName: { type: String, required: true, minLength: 2 },
    ingredientPortion: { type: String, required: true, minLength: 1 },
 });
 
-const recipeImage = new mongoose.Schema({
-   url: String,
-});
 
 const recipeSchema = new mongoose.Schema({
    name: { type: String, trim: true, requred: true },
@@ -25,7 +20,7 @@ const recipeSchema = new mongoose.Schema({
       required: true,
       validate: [checkMinimumCount, "Ingredients must be at least 3"],
    },
-   recipe_img: { type: recipeImage, required: true }
+   recipe_img: { type: String, required: true }
 });
 
 const Recipe = mongoose.model("Recipe", recipeSchema);

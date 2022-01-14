@@ -17,6 +17,7 @@ app.use(cors({
 }));
 app.use(bodyParser.json({ limit: "30mb" }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+app.use(("/uploads"), express.static("uploads"));
 if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"));
 }

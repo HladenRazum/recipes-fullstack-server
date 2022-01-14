@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteRecipe = exports.updateRecipe = exports.createRecipe = exports.getAllRecipes = void 0;
+exports.deleteRecipe = exports.updateRecipe = exports.createRecipe = exports.getRecipeById = exports.getAllRecipes = void 0;
 const mongoose = require("mongoose");
 const recipe_model_1 = require("../models/recipe.model");
 // Show all recipes
@@ -25,14 +25,27 @@ exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 // Get a recipe by ID
+exports.getRecipeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = req.params.recipeId;
+        const recipe = yield recipe_model_1.Recipe.findById(id);
+        if (recipe) {
+            res.status(200).json(recipe);
+        }
+    }
+    catch (error) {
+        res.status(404).json(error.message);
+    }
+});
 // Create a new Recipe
 exports.createRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let data = req.body;
-    data = Object.assign(Object.assign({}, data), { recipe_img: req.file, ingredients: JSON.parse(data.ingredients) });
+    console.log(req.file);
+    data = Object.assign(Object.assign({}, data), { recipe_img: req.file.path, ingredients: JSON.parse(data.ingredients) });
     const newRecipe = new recipe_model_1.Recipe(data);
     const errors = newRecipe.validateSync();
     if (process.env.NODE_ENV === "development") {
-        console.log(newRecipe);
+        // console.log(newRecipe);
     }
     if (errors) {
         return res.status(400).json(errors.message);

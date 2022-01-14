@@ -15,21 +15,34 @@ export const getAllRecipes = async (req: Request, res: Response) => {
 };
 
 // Get a recipe by ID
+export const getRecipeById = async (req: Request, res: Response) => {
+   try {
+      const id = req.params.recipeId;
+      const recipe = await Recipe.findById(id);
+      if (recipe) {
+         res.status(200).json(recipe);
+      }
+   } catch (error) {
+      res.status(404).json(error.message);
+   }
+};
 
 // Create a new Recipe
 export const createRecipe = async (req: Request, res: Response) => {
    let data = req.body;
+   console.log(req.file);
    data = {
       ...data,
-      recipe_img: req.file,
+      recipe_img: req.file.path,
       ingredients: JSON.parse(data.ingredients),
    };
+
 
    const newRecipe = new Recipe(data);
    const errors = newRecipe.validateSync();
 
    if (process.env.NODE_ENV === "development") {
-      console.log(newRecipe);
+      // console.log(newRecipe);
    }
 
    if (errors) {

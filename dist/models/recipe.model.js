@@ -6,9 +6,6 @@ const ingredient = new mongoose.Schema({
     ingredientName: { type: String, required: true, minLength: 2 },
     ingredientPortion: { type: String, required: true, minLength: 1 },
 });
-const recipeImage = new mongoose.Schema({
-    url: String,
-});
 const recipeSchema = new mongoose.Schema({
     name: { type: String, trim: true, requred: true },
     category: { type: String, trim: true, required: true },
@@ -18,7 +15,7 @@ const recipeSchema = new mongoose.Schema({
         required: true,
         validate: [checkMinimumCount, "Ingredients must be at least 3"],
     },
-    recipe_img: { type: recipeImage, required: true }
+    recipe_img: { type: String, required: true }
 });
 const Recipe = mongoose.model("Recipe", recipeSchema);
 exports.Recipe = Recipe;

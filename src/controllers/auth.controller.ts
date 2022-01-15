@@ -27,14 +27,22 @@ export const login = async (req: Request, res: Response) => {
          throw new Error("Something went wrong during authentication");
       }
 
-      //
-      const isMatch = await bcrypt.compare(password, user.password);
+      // //
+      // const isMatch = await bcrypt.compare(password, user.password);
 
-      if (isMatch) {
+      // if (isMatch) {
+      //    res.status(200).json("Logged In");
+      // } else {
+      //    res.status(401).json("Wrong credentials");
+      // }
+
+      // Login without hashing
+      if (password === user.password) {
          res.status(200).json("Logged In");
       } else {
          res.status(401).json("Wrong credentials");
       }
+      ////////////////////////////////
    } catch (error) {
       res.status(404).json({
          error: error.message,

@@ -11,7 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createUser = exports.getAllUsers = void 0;
 const user_model_1 = require("../models/user.model");
-const bcrypt = require("bcryptjs");
 const dotenv = require("dotenv");
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -42,9 +41,10 @@ exports.createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             error: "Invalid password",
         });
     }
-    const hashedPassword = yield bcrypt.hash(password, 10);
-    const updatedUser = Object.assign(Object.assign({}, req.body), { password: hashedPassword });
-    const newUser = new user_model_1.User(updatedUser);
+    // const hashedPassword = await bcrypt.hash(password, 10);
+    // const updatedUser = { ...req.body, password: hashedPassword };
+    // const newUser = new User(updatedUser);
+    const newUser = new user_model_1.User(req.body); // save without hashing
     try {
         yield newUser.save();
         res.status(201).json({

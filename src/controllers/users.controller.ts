@@ -39,9 +39,11 @@ export const createUser = async (req: Request, res: Response) => {
       });
    }
 
-   const hashedPassword = await bcrypt.hash(password, 10);
-   const updatedUser = { ...req.body, password: hashedPassword };
-   const newUser = new User(updatedUser);
+   // const hashedPassword = await bcrypt.hash(password, 10);
+   // const updatedUser = { ...req.body, password: hashedPassword };
+
+   // const newUser = new User(updatedUser);
+   const newUser = new User(req.body); // save without hashing
 
    try {
       await newUser.save();

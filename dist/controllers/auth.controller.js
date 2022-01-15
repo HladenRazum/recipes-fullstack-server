@@ -11,7 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = void 0;
 const user_model_1 = require("../models/user.model");
-const bcrypt = require("bcryptjs");
 const dotenv = require("dotenv");
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -29,14 +28,21 @@ exports.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (JWT_SECRET.length === 0) {
             throw new Error("Something went wrong during authentication");
         }
-        //
-        const isMatch = yield bcrypt.compare(password, user.password);
-        if (isMatch) {
+        // //
+        // const isMatch = await bcrypt.compare(password, user.password);
+        // if (isMatch) {
+        //    res.status(200).json("Logged In");
+        // } else {
+        //    res.status(401).json("Wrong credentials");
+        // }
+        // Login without hashing
+        if (password === user.password) {
             res.status(200).json("Logged In");
         }
         else {
             res.status(401).json("Wrong credentials");
         }
+        ////////////////////////////////
     }
     catch (error) {
         res.status(404).json({

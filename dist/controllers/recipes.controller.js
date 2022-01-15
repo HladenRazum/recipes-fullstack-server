@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteRecipe = exports.updateRecipe = exports.createRecipe = exports.getRecipeById = exports.getAllRecipes = void 0;
+exports.deleteRecipe = exports.updateRecipe = exports.createRecipe = exports.getRecipeByName = exports.getRecipeById = exports.getAllRecipes = void 0;
 const mongoose = require("mongoose");
 const recipe_model_1 = require("../models/recipe.model");
 // Show all recipes
@@ -60,6 +60,32 @@ exports.getRecipeById = (req, res) => __awaiter(void 0, void 0, void 0, function
         }
     }
     catch (error) {
+        res.status(404).json(error.message);
+    }
+});
+// Get a recipe by Name
+exports.getRecipeByName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { recipeName } = req.body;
+        console.log(recipeName);
+    }
+    catch (error) {
+        //    const id = req.params.recipeId;
+        //    const recipe = await Recipe.findById(id)
+        //       .exec()
+        //       .then((doc: IRecipe) => {
+        //          return {
+        //             name: doc.name,
+        //             category: doc.category,
+        //             instructions: doc.instructions,
+        //             ingredients: doc.ingredients,
+        //             url: "http://localhost:9000/" + doc.recipe_img,
+        //             featured: doc.featured,
+        //          };
+        //       });
+        //    if (recipe) {
+        //       res.status(200).json(recipe);
+        //    }
         res.status(404).json(error.message);
     }
 });

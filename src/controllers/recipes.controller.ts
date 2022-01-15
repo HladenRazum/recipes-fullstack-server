@@ -56,6 +56,33 @@ export const getRecipeById = async (req: Request, res: Response) => {
    }
 };
 
+// Get a recipe by Name
+export const getRecipeByName = async (req: Request, res: Response) => {
+   try {
+      const { recipeName } = req.body;
+      console.log(recipeName);
+   } catch (error) {
+      //    const id = req.params.recipeId;
+      //    const recipe = await Recipe.findById(id)
+      //       .exec()
+      //       .then((doc: IRecipe) => {
+      //          return {
+      //             name: doc.name,
+      //             category: doc.category,
+      //             instructions: doc.instructions,
+      //             ingredients: doc.ingredients,
+      //             url: "http://localhost:9000/" + doc.recipe_img,
+      //             featured: doc.featured,
+      //          };
+      //       });
+
+      //    if (recipe) {
+      //       res.status(200).json(recipe);
+      //    }
+      res.status(404).json(error.message);
+   }
+};
+
 // Create a new Recipe
 export const createRecipe = async (req: Request, res: Response) => {
    let data = req.body;

@@ -26,7 +26,6 @@ export const login = async (req: Request, res: Response) => {
       if (JWT_SECRET.length === 0) {
          throw new Error("Something went wrong during authentication");
       }
-
       // //
       // const isMatch = await bcrypt.compare(password, user.password);
 

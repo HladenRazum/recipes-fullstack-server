@@ -16,7 +16,7 @@ export const getAllRecipes = async (req: Request, res: Response) => {
                   instructions: doc.instructions,
                   ingredients: doc.ingredients,
                   url: "http://localhost:9000/" + doc.recipe_img,
-                  featured: doc.featured
+                  featured: doc.featured,
                };
             });
 
@@ -35,7 +35,19 @@ export const getAllRecipes = async (req: Request, res: Response) => {
 export const getRecipeById = async (req: Request, res: Response) => {
    try {
       const id = req.params.recipeId;
-      const recipe = await Recipe.findById(id);
+      const recipe = await Recipe.findById(id)
+         .exec()
+         .then((doc: IRecipe) => {
+            return {
+               name: doc.name,
+               category: doc.category,
+               instructions: doc.instructions,
+               ingredients: doc.ingredients,
+               url: "http://localhost:9000/" + doc.recipe_img,
+               featured: doc.featured,
+            };
+         });
+
       if (recipe) {
          res.status(200).json(recipe);
       }

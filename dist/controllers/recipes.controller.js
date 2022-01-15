@@ -26,7 +26,7 @@ exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function
                     instructions: doc.instructions,
                     ingredients: doc.ingredients,
                     url: "http://localhost:9000/" + doc.recipe_img,
-                    featured: doc.featured
+                    featured: doc.featured,
                 };
             });
             return response;
@@ -43,7 +43,18 @@ exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function
 exports.getRecipeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.recipeId;
-        const recipe = yield recipe_model_1.Recipe.findById(id);
+        const recipe = yield recipe_model_1.Recipe.findById(id)
+            .exec()
+            .then((doc) => {
+            return {
+                name: doc.name,
+                category: doc.category,
+                instructions: doc.instructions,
+                ingredients: doc.ingredients,
+                url: "http://localhost:9000/" + doc.recipe_img,
+                featured: doc.featured,
+            };
+        });
         if (recipe) {
             res.status(200).json(recipe);
         }

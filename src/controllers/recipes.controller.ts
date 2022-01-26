@@ -5,30 +5,67 @@ import { ERROR_CODES } from "../../constants";
 
 // Show all recipes
 export const getAllRecipes = async (req: Request, res: Response) => {
-   try {
-      const recipes = await Recipe.find()
-         .exec()
-         .then((docs) => {
-            const response = docs.map((doc: IRecipe) => {
-               return {
-                  _id: doc._id,
-                  name: doc.name,
-                  category: doc.category,
-                  instructions: doc.instructions,
-                  ingredients: doc.ingredients,
-                  url: "http://localhost:9000/" + doc.recipe_img,
-                  featured: doc.featured,
-               };
+   const query = req.query;
+   // Try to extract query from URL
+
+   if (query.createdBy) {
+      console.log(query);
+
+      try {
+         const recipes = await Recipe.find({
+            createdBy: query.createdBy,
+         })
+            .exec()
+            .then((docs) => {
+               const response = docs.map((doc: IRecipe) => {
+                  return {
+                     _id: doc._id,
+                     name: doc.name,
+                     category: doc.category,
+                     instructions: doc.instructions,
+                     ingredients: doc.ingredients,
+                     url: "http://localhost:9000/" + doc.recipe_img,
+                     featured: doc.featured,
+                     createdBy: doc.createdBy,
+                  };
+               });
+
+               return response;
             });
 
-            return response;
+         res.status(ERROR_CODES.OK).json(recipes);
+      } catch (error) {
+         res.status(ERROR_CODES.NOT_FOUND).json({
+            message: error.message,
          });
+      }
+   } else {
+      try {
+         const recipes = await Recipe.find()
+            .exec()
+            .then((docs) => {
+               const response = docs.map((doc: IRecipe) => {
+                  return {
+                     _id: doc._id,
+                     name: doc.name,
+                     category: doc.category,
+                     instructions: doc.instructions,
+                     ingredients: doc.ingredients,
+                     url: "http://localhost:9000/" + doc.recipe_img,
+                     featured: doc.featured,
+                     createdBy: doc.createdBy,
+                  };
+               });
 
-      res.status(ERROR_CODES.OK).json(recipes);
-   } catch (error) {
-      res.status(ERROR_CODES.NOT_FOUND).json({
-         message: error.message,
-      });
+               return response;
+            });
+
+         res.status(ERROR_CODES.OK).json(recipes);
+      } catch (error) {
+         res.status(ERROR_CODES.NOT_FOUND).json({
+            message: error.message,
+         });
+      }
    }
 };
 
@@ -46,6 +83,7 @@ export const getRecipeById = async (req: Request, res: Response) => {
                ingredients: doc.ingredients,
                url: "http://localhost:9000/" + doc.recipe_img,
                featured: doc.featured,
+               createdBy: doc.createdBy,
             };
          });
 
@@ -56,6 +94,31 @@ export const getRecipeById = async (req: Request, res: Response) => {
       res.status(ERROR_CODES.NOT_FOUND).json(error.message);
    }
 };
+
+// // Get all recipes by the same User
+// export const getAllRecipesCreatedBySameUser = async (
+//    req: Request,
+//    res: Response
+// ) => {
+//    try {
+//       const userId = req.body.userId;
+
+//       if (!userId) {
+//          res.status(404).json({
+//             message: "Could not find such user",
+//          });
+//       }
+
+//       const allUserRecipes = await Recipe.find({
+//          createdBy: userId,
+//       }).exec();
+
+//       console.log(allUserRecipes);
+
+//    } catch (error) {
+//       res.status(404).json(error);
+//    }
+// };
 
 // Get a recipe by Name
 export const getRecipeByName = async (req: Request, res: Response) => {
@@ -87,17 +150,20 @@ export const getRecipeByName = async (req: Request, res: Response) => {
 // Create a new Recipe
 export const createRecipe = async (req: Request, res: Response) => {
    let data = req.body;
+   console.log(data.createdBy);
    data = {
       ...data,
       recipe_img: req.file.path,
       ingredients: JSON.parse(data.ingredients),
+      createdBy: data.createdBy,
    };
 
    const newRecipe = new Recipe(data);
+
    const errors = newRecipe.validateSync();
 
    if (process.env.NODE_ENV === "development") {
-      // console.log(newRecipe);
+      console.log(newRecipe);
    }
 
    if (errors) {

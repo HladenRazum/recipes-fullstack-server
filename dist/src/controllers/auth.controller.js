@@ -40,6 +40,7 @@ exports.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             res.status(200).json({
                 user: {
                     username: user.username,
+                    id: user._id,
                 },
                 token: "token12317286312",
             });

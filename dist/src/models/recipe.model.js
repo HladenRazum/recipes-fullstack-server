@@ -15,8 +15,9 @@ const recipeSchema = new mongoose.Schema({
         required: true,
         validate: [checkMinimumCount, "Ingredients must be at least 3"],
     },
+    createdBy: { type: mongoose.Types.ObjectId, required: true },
     recipe_img: { type: String, required: true },
-    featured: { type: Boolean, default: false }
+    featured: { type: Boolean, default: false },
 });
 const Recipe = mongoose.model("Recipe", recipeSchema);
 exports.Recipe = Recipe;

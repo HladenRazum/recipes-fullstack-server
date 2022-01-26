@@ -15,29 +15,64 @@ const recipe_model_1 = require("../models/recipe.model");
 const constants_1 = require("../../constants");
 // Show all recipes
 exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const recipes = yield recipe_model_1.Recipe.find()
-            .exec()
-            .then((docs) => {
-            const response = docs.map((doc) => {
-                return {
-                    _id: doc._id,
-                    name: doc.name,
-                    category: doc.category,
-                    instructions: doc.instructions,
-                    ingredients: doc.ingredients,
-                    url: "http://localhost:9000/" + doc.recipe_img,
-                    featured: doc.featured,
-                };
+    const query = req.query;
+    // Try to extract query from URL
+    if (query.createdBy) {
+        console.log(query);
+        try {
+            const recipes = yield recipe_model_1.Recipe.find({
+                createdBy: query.createdBy,
+            })
+                .exec()
+                .then((docs) => {
+                const response = docs.map((doc) => {
+                    return {
+                        _id: doc._id,
+                        name: doc.name,
+                        category: doc.category,
+                        instructions: doc.instructions,
+                        ingredients: doc.ingredients,
+                        url: "http://localhost:9000/" + doc.recipe_img,
+                        featured: doc.featured,
+                        createdBy: doc.createdBy,
+                    };
+                });
+                return response;
             });
-            return response;
-        });
-        res.status(constants_1.ERROR_CODES.OK).json(recipes);
+            res.status(constants_1.ERROR_CODES.OK).json(recipes);
+        }
+        catch (error) {
+            res.status(constants_1.ERROR_CODES.NOT_FOUND).json({
+                message: error.message,
+            });
+        }
     }
-    catch (error) {
-        res.status(constants_1.ERROR_CODES.NOT_FOUND).json({
-            message: error.message,
-        });
+    else {
+        try {
+            const recipes = yield recipe_model_1.Recipe.find()
+                .exec()
+                .then((docs) => {
+                const response = docs.map((doc) => {
+                    return {
+                        _id: doc._id,
+                        name: doc.name,
+                        category: doc.category,
+                        instructions: doc.instructions,
+                        ingredients: doc.ingredients,
+                        url: "http://localhost:9000/" + doc.recipe_img,
+                        featured: doc.featured,
+                        createdBy: doc.createdBy,
+                    };
+                });
+                return response;
+            });
+            res.status(constants_1.ERROR_CODES.OK).json(recipes);
+        }
+        catch (error) {
+            res.status(constants_1.ERROR_CODES.NOT_FOUND).json({
+                message: error.message,
+            });
+        }
     }
 });
 // Get a recipe by ID
@@ -54,6 +89,7 @@ exports.getRecipeById = (req, res) => __awaiter(void 0, void 0, void 0, function
                 ingredients: doc.ingredients,
                 url: "http://localhost:9000/" + doc.recipe_img,
                 featured: doc.featured,
+                createdBy: doc.createdBy,
             };
         });
         if (recipe) {
@@ -64,6 +100,26 @@ exports.getRecipeById = (req, res) => __awaiter(void 0, void 0, void 0, function
         res.status(constants_1.ERROR_CODES.NOT_FOUND).json(error.message);
     }
 });
+// // Get all recipes by the same User
+// export const getAllRecipesCreatedBySameUser = async (
+//    req: Request,
+//    res: Response
+// ) => {
+//    try {
+//       const userId = req.body.userId;
+//       if (!userId) {
+//          res.status(404).json({
+//             message: "Could not find such user",
+//          });
+//       }
+//       const allUserRecipes = await Recipe.find({
+//          createdBy: userId,
+//       }).exec();
+//       console.log(allUserRecipes);
+//    } catch (error) {
+//       res.status(404).json(error);
+//    }
+// };
 // Get a recipe by Name
 exports.getRecipeByName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -93,11 +149,12 @@ exports.getRecipeByName = (req, res) => __awaiter(void 0, void 0, void 0, functi
 // Create a new Recipe
 exports.createRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let data = req.body;
-    data = Object.assign(Object.assign({}, data), { recipe_img: req.file.path, ingredients: JSON.parse(data.ingredients) });
+    console.log(data.createdBy);
+    data = Object.assign(Object.assign({}, data), { recipe_img: req.file.path, ingredients: JSON.parse(data.ingredients), createdBy: data.createdBy });
     const newRecipe = new recipe_model_1.Recipe(data);
     const errors = newRecipe.validateSync();
     if (process.env.NODE_ENV === "development") {
-        // console.log(newRecipe);
+        console.log(newRecipe);
     }
     if (errors) {
         return res.status(constants_1.ERROR_CODES.BAD_REQUEST).json(errors.message);

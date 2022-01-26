@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteRecipe = exports.updateRecipe = exports.createRecipe = exports.getRecipeByName = exports.getRecipeById = exports.getAllRecipes = void 0;
 const mongoose = require("mongoose");
 const recipe_model_1 = require("../models/recipe.model");
+const constants_1 = require("../../constants");
 // Show all recipes
 exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -31,10 +32,10 @@ exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function
             });
             return response;
         });
-        res.status(ERROR_CODES.OK).json(recipes);
+        res.status(constants_1.ERROR_CODES.OK).json(recipes);
     }
     catch (error) {
-        res.status(ERROR_CODES.NOT_FOUND).json({
+        res.status(constants_1.ERROR_CODES.NOT_FOUND).json({
             message: error.message,
         });
     }
@@ -56,11 +57,11 @@ exports.getRecipeById = (req, res) => __awaiter(void 0, void 0, void 0, function
             };
         });
         if (recipe) {
-            res.status(ERROR_CODES.OK).json(recipe);
+            res.status(constants_1.ERROR_CODES.OK).json(recipe);
         }
     }
     catch (error) {
-        res.status(ERROR_CODES.NOT_FOUND).json(error.message);
+        res.status(constants_1.ERROR_CODES.NOT_FOUND).json(error.message);
     }
 });
 // Get a recipe by Name
@@ -86,7 +87,7 @@ exports.getRecipeByName = (req, res) => __awaiter(void 0, void 0, void 0, functi
         //    if (recipe) {
         //       res.status(200).json(recipe);
         //    }
-        res.status(ERROR_CODES.NOT_FOUND).json(error.message);
+        res.status(constants_1.ERROR_CODES.NOT_FOUND).json(error.message);
     }
 });
 // Create a new Recipe
@@ -99,18 +100,18 @@ exports.createRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function*
         // console.log(newRecipe);
     }
     if (errors) {
-        return res.status(ERROR_CODES.BAD_REQUEST).json(errors.message);
+        return res.status(constants_1.ERROR_CODES.BAD_REQUEST).json(errors.message);
     }
     try {
         yield newRecipe.save();
-        return res.status(ERROR_CODES.CREATED).json({
+        return res.status(constants_1.ERROR_CODES.OK).json({
             message: "Recipe added successfully to database...",
             recipe: newRecipe,
         });
     }
     catch (error) {
         console.error(error.message);
-        return res.status(ERROR_CODES.NOT_FOUND).json({
+        return res.status(constants_1.ERROR_CODES.NOT_FOUND).json({
             message: error,
         });
     }
@@ -121,7 +122,7 @@ exports.updateRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function*
     const recipe = req.body;
     if (!mongoose.Types.ObjectId.isValid(_id)) {
         return res
-            .status(ERROR_CODES.NOT_FOUND)
+            .status(constants_1.ERROR_CODES.NOT_FOUND)
             .send("No recipe with this ID was found!");
     }
     try {
@@ -129,10 +130,10 @@ exports.updateRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const updatedRecipe = yield recipe_model_1.Recipe.findOneAndUpdate(query, recipe, {
             new: true,
         });
-        return res.status(ERROR_CODES.OK).json({ updatedRecipe });
+        return res.status(constants_1.ERROR_CODES.OK).json({ updatedRecipe });
     }
     catch (error) {
-        res.status(ERROR_CODES.NOT_FOUND).send(error);
+        res.status(constants_1.ERROR_CODES.NOT_FOUND).send(error);
     }
 });
 // Delete a recipe
@@ -140,16 +141,16 @@ exports.deleteRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function*
     const _id = req.params.recipeId;
     if (!mongoose.Types.ObjectId.isValid(_id)) {
         return res
-            .status(ERROR_CODES.NOT_FOUND)
+            .status(constants_1.ERROR_CODES.NOT_FOUND)
             .send("No recipe with this ID was found!");
     }
     try {
         const query = yield recipe_model_1.Recipe.find({ _id: _id });
         yield recipe_model_1.Recipe.findOneAndDelete(query);
-        res.status(ERROR_CODES.OK).send("Recipe was successfully removed from database.");
+        res.status(constants_1.ERROR_CODES.OK).send("Recipe was successfully removed from database.");
     }
     catch (error) {
-        res.status(ERROR_CODES.NOT_FOUND).send({
+        res.status(constants_1.ERROR_CODES.NOT_FOUND).send({
             error: error,
         });
     }

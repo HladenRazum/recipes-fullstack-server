@@ -1,6 +1,7 @@
 import * as mongoose from "mongoose";
 import { Recipe, IRecipe } from "../models/recipe.model";
 import { Request, Response } from "express";
+import { ERROR_CODES } from "../../constants";
 
 // Show all recipes
 export const getAllRecipes = async (req: Request, res: Response) => {
@@ -23,9 +24,9 @@ export const getAllRecipes = async (req: Request, res: Response) => {
             return response;
          });
 
-      res.status(200).json(recipes);
+      res.status(ERROR_CODES.OK).json(recipes);
    } catch (error) {
-      res.status(404).json({
+      res.status(ERROR_CODES.NOT_FOUND).json({
          message: error.message,
       });
    }
@@ -49,10 +50,10 @@ export const getRecipeById = async (req: Request, res: Response) => {
          });
 
       if (recipe) {
-         res.status(200).json(recipe);
+         res.status(ERROR_CODES.OK).json(recipe);
       }
    } catch (error) {
-      res.status(404).json(error.message);
+      res.status(ERROR_CODES.NOT_FOUND).json(error.message);
    }
 };
 
@@ -79,7 +80,7 @@ export const getRecipeByName = async (req: Request, res: Response) => {
       //    if (recipe) {
       //       res.status(200).json(recipe);
       //    }
-      res.status(404).json(error.message);
+      res.status(ERROR_CODES.NOT_FOUND).json(error.message);
    }
 };
 
@@ -100,18 +101,18 @@ export const createRecipe = async (req: Request, res: Response) => {
    }
 
    if (errors) {
-      return res.status(400).json(errors.message);
+      return res.status(ERROR_CODES.BAD_REQUEST).json(errors.message);
    }
 
    try {
       await newRecipe.save();
-      return res.status(201).json({
+      return res.status(ERROR_CODES.OK).json({
          message: "Recipe added successfully to database...",
          recipe: newRecipe,
       });
    } catch (error) {
       console.error(error.message);
-      return res.status(409).json({
+      return res.status(ERROR_CODES.NOT_FOUND).json({
          message: error,
       });
    }
@@ -123,7 +124,9 @@ export const updateRecipe = async (req: Request, res: Response) => {
    const recipe = req.body;
 
    if (!mongoose.Types.ObjectId.isValid(_id)) {
-      return res.status(404).send("No recipe with this ID was found!");
+      return res
+         .status(ERROR_CODES.NOT_FOUND)
+         .send("No recipe with this ID was found!");
    }
 
    try {
@@ -131,9 +134,9 @@ export const updateRecipe = async (req: Request, res: Response) => {
       const updatedRecipe = await Recipe.findOneAndUpdate(query, recipe, {
          new: true,
       });
-      return res.status(200).json({ updatedRecipe });
+      return res.status(ERROR_CODES.OK).json({ updatedRecipe });
    } catch (error) {
-      res.status(404).send(error);
+      res.status(ERROR_CODES.NOT_FOUND).send(error);
    }
 };
 
@@ -142,15 +145,19 @@ export const deleteRecipe = async (req: Request, res: Response) => {
    const _id = req.params.recipeId;
 
    if (!mongoose.Types.ObjectId.isValid(_id)) {
-      return res.status(404).send("No recipe with this ID was found!");
+      return res
+         .status(ERROR_CODES.NOT_FOUND)
+         .send("No recipe with this ID was found!");
    }
 
    try {
       const query = await Recipe.find({ _id: _id });
       await Recipe.findOneAndDelete(query);
-      res.status(200).send("Recipe was successfully removed from database.");
+      res.status(ERROR_CODES.OK).send(
+         "Recipe was successfully removed from database."
+      );
    } catch (error) {
-      res.status(404).send({
+      res.status(ERROR_CODES.NOT_FOUND).send({
          error: error,
       });
    }

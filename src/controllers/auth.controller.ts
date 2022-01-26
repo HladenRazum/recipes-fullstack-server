@@ -37,9 +37,19 @@ export const login = async (req: Request, res: Response) => {
 
       // Login without hashing
       if (password === user.password) {
-         res.status(200).json("Logged In");
+         res.status(200).json({
+            user: {
+               username: user.username,
+            },
+            token: "token12317286312",
+         });
       } else {
-         res.status(401).json("Wrong credentials");
+         res.status(401).json({
+            error: {
+               status: 401,
+               message: "Wrong credentials",
+            },
+         });
       }
       ////////////////////////////////
    } catch (error) {

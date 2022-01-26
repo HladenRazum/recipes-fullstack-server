@@ -37,7 +37,12 @@ exports.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         // }
         // Login without hashing
         if (password === user.password) {
-            res.status(200).json("Logged In");
+            res.status(200).json({
+                user: {
+                    username: user.username,
+                },
+                token: "token12317286312",
+            });
         }
         else {
             res.status(401).json({

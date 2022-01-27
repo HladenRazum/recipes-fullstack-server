@@ -3,11 +3,13 @@ import { Recipe, IRecipe } from "../models/recipe.model";
 import { Request, Response } from "express";
 import { ERROR_CODES } from "../../constants";
 
-// Show all recipes
+/////////////////////////////////////////////////////////
+//  Get all recipes OR all recipes for current userId
+/////////////////////////////////////////////////////////
 export const getAllRecipes = async (req: Request, res: Response) => {
    const query = req.query;
-   // Try to extract query from URL
 
+   // Check if the request includes query such as "/recipes?createdBy=${currentUserAccountId}"
    if (query.createdBy) {
       console.log(query);
 
@@ -69,7 +71,9 @@ export const getAllRecipes = async (req: Request, res: Response) => {
    }
 };
 
-// Get a recipe by ID
+///////////////////////////
+//  Get a recipe by ID
+///////////////////////////
 export const getRecipeById = async (req: Request, res: Response) => {
    try {
       const id = req.params.recipeId;
@@ -94,60 +98,9 @@ export const getRecipeById = async (req: Request, res: Response) => {
       res.status(ERROR_CODES.NOT_FOUND).json(error.message);
    }
 };
-
-// // Get all recipes by the same User
-// export const getAllRecipesCreatedBySameUser = async (
-//    req: Request,
-//    res: Response
-// ) => {
-//    try {
-//       const userId = req.body.userId;
-
-//       if (!userId) {
-//          res.status(404).json({
-//             message: "Could not find such user",
-//          });
-//       }
-
-//       const allUserRecipes = await Recipe.find({
-//          createdBy: userId,
-//       }).exec();
-
-//       console.log(allUserRecipes);
-
-//    } catch (error) {
-//       res.status(404).json(error);
-//    }
-// };
-
-// Get a recipe by Name
-export const getRecipeByName = async (req: Request, res: Response) => {
-   try {
-      const { recipeName } = req.body;
-      console.log(recipeName);
-   } catch (error) {
-      //    const id = req.params.recipeId;
-      //    const recipe = await Recipe.findById(id)
-      //       .exec()
-      //       .then((doc: IRecipe) => {
-      //          return {
-      //             name: doc.name,
-      //             category: doc.category,
-      //             instructions: doc.instructions,
-      //             ingredients: doc.ingredients,
-      //             url: "http://localhost:9000/" + doc.recipe_img,
-      //             featured: doc.featured,
-      //          };
-      //       });
-
-      //    if (recipe) {
-      //       res.status(200).json(recipe);
-      //    }
-      res.status(ERROR_CODES.NOT_FOUND).json(error.message);
-   }
-};
-
-// Create a new Recipe
+///////////////////////////
+//  Create a new recipe
+///////////////////////////
 export const createRecipe = async (req: Request, res: Response) => {
    let data = req.body;
    console.log(data.createdBy);
@@ -184,7 +137,9 @@ export const createRecipe = async (req: Request, res: Response) => {
    }
 };
 
-// Update Recipe
+///////////////////////////
+//  Update a recipe
+///////////////////////////
 export const updateRecipe = async (req: Request, res: Response) => {
    const _id = req.params.recipeId;
    const recipe = req.body;
@@ -206,7 +161,9 @@ export const updateRecipe = async (req: Request, res: Response) => {
    }
 };
 
-// Delete a recipe
+///////////////////////////
+//  Delete a recipe by ID
+///////////////////////////
 export const deleteRecipe = async (req: Request, res: Response) => {
    const _id = req.params.recipeId;
 

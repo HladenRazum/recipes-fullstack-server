@@ -9,14 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteRecipe = exports.updateRecipe = exports.createRecipe = exports.getRecipeByName = exports.getRecipeById = exports.getAllRecipes = void 0;
+exports.deleteRecipe = exports.updateRecipe = exports.createRecipe = exports.getRecipeById = exports.getAllRecipes = void 0;
 const mongoose = require("mongoose");
 const recipe_model_1 = require("../models/recipe.model");
 const constants_1 = require("../../constants");
-// Show all recipes
+/////////////////////////////////////////////////////////
+//  Get all recipes OR all recipes for current userId
+/////////////////////////////////////////////////////////
 exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const query = req.query;
-    // Try to extract query from URL
+    // Check if the request includes query such as "/recipes?createdBy=${currentUserAccountId}"
     if (query.createdBy) {
         console.log(query);
         try {
@@ -75,7 +77,9 @@ exports.getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function
         }
     }
 });
-// Get a recipe by ID
+///////////////////////////
+//  Get a recipe by ID
+///////////////////////////
 exports.getRecipeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.recipeId;
@@ -100,53 +104,9 @@ exports.getRecipeById = (req, res) => __awaiter(void 0, void 0, void 0, function
         res.status(constants_1.ERROR_CODES.NOT_FOUND).json(error.message);
     }
 });
-// // Get all recipes by the same User
-// export const getAllRecipesCreatedBySameUser = async (
-//    req: Request,
-//    res: Response
-// ) => {
-//    try {
-//       const userId = req.body.userId;
-//       if (!userId) {
-//          res.status(404).json({
-//             message: "Could not find such user",
-//          });
-//       }
-//       const allUserRecipes = await Recipe.find({
-//          createdBy: userId,
-//       }).exec();
-//       console.log(allUserRecipes);
-//    } catch (error) {
-//       res.status(404).json(error);
-//    }
-// };
-// Get a recipe by Name
-exports.getRecipeByName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { recipeName } = req.body;
-        console.log(recipeName);
-    }
-    catch (error) {
-        //    const id = req.params.recipeId;
-        //    const recipe = await Recipe.findById(id)
-        //       .exec()
-        //       .then((doc: IRecipe) => {
-        //          return {
-        //             name: doc.name,
-        //             category: doc.category,
-        //             instructions: doc.instructions,
-        //             ingredients: doc.ingredients,
-        //             url: "http://localhost:9000/" + doc.recipe_img,
-        //             featured: doc.featured,
-        //          };
-        //       });
-        //    if (recipe) {
-        //       res.status(200).json(recipe);
-        //    }
-        res.status(constants_1.ERROR_CODES.NOT_FOUND).json(error.message);
-    }
-});
-// Create a new Recipe
+///////////////////////////
+//  Create a new recipe
+///////////////////////////
 exports.createRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let data = req.body;
     console.log(data.createdBy);
@@ -173,7 +133,9 @@ exports.createRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
 });
-// Update Recipe
+///////////////////////////
+//  Update a recipe
+///////////////////////////
 exports.updateRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const _id = req.params.recipeId;
     const recipe = req.body;
@@ -193,7 +155,9 @@ exports.updateRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.status(constants_1.ERROR_CODES.NOT_FOUND).send(error);
     }
 });
-// Delete a recipe
+///////////////////////////
+//  Delete a recipe by ID
+///////////////////////////
 exports.deleteRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const _id = req.params.recipeId;
     if (!mongoose.Types.ObjectId.isValid(_id)) {
